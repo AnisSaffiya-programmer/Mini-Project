@@ -120,12 +120,20 @@ else:
     correlation = filtered_df['GPA'].corr(filtered_df['Well-being'])
     st.markdown(f"**Correlation Coefficient:** `{correlation:.2f}`")
 
-    fig6 = px.scatter(
-        filtered_df,
-        x='GPA',
-        y='Well-being',
-        color='Activity',
-        title='GPA vs Wellbeing with Trendline',
+    try:
+        import statsmodels.api as sm  # Required for trendline='ols'
+        fig6 = px.scatter(
+            filtered_df,
+            x='GPA',
+            y='Well-being',
+            color='Activity',
+            title='GPA vs Wellbeing with Trendline',
+            trendline='ols'
+        )
+        st.plotly_chart(fig6, use_container_width=True)
+    except ModuleNotFoundError:
+        st.error("The 'statsmodels' package is required to show the trendline. Please add it to your requirements.txt file: \n\nstatsmodels")
+    title='GPA vs Wellbeing with Trendline',
         trendline='ols'
     )
     st.plotly_chart(fig6, use_container_width=True)
